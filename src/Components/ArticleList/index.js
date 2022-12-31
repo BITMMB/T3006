@@ -1,2 +1,2 @@
-import App from './App'
-export default App
+import ArticleList from './ArticleList'
+export default ArticleList

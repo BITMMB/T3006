@@ -1,2 +1,2 @@
-import App from './App'
-export default App
+import ArticleSmall from './ArticleSmall'
+export default ArticleSmall

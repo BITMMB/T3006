@@ -7,9 +7,9 @@ async function getResourse(url) {
 }
 // export default getResourse
 
-export class Articles {
+export class ApiArticles {
   async getArticleList() {
-    const res = await getResourse('https://api.realworld.io/api/articles?limit=970&offset=0')
+    const res = await getResourse('https://api.realworld.io/api/articles?limit=5&offset=0')
 
     return res
   }

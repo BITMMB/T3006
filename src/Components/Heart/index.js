@@ -1,2 +1,2 @@
-import App from './App'
-export default App
+import Heart from './Heart'
+export default Heart
