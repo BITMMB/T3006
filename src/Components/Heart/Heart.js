@@ -5,11 +5,11 @@ import classes from './Heart.module.scss'
 import heart from './heart1.png'
 // import heartRed from './heart_red.png'
 
-function Heart() {
+function Heart({ favoritesCount }) {
   return (
-    <div className={''}>
+    <div className={classes.block}>
       <img src={heart} className={classes.heart} alt="like" />
-      <span className={classes.counter}>12</span>
+      <span className={classes.counter}>{favoritesCount}</span>
     </div>
   )
 }

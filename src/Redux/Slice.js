@@ -1,9 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// import { ApiArticles } from '../Api/Api.js'
+
+// const apiArticles = new ApiArticles()
+
 const initialState = {
   articles: [],
+  articlescount: 0,
   skipNumber: 0,
   isLoading: false,
+  currentPage: '',
 }
 
 const blogSlice = createSlice({
@@ -12,20 +18,23 @@ const blogSlice = createSlice({
 
   reducers: {
     getarticles(state, action) {
-      // state.articles = state.articles.concat(action.payload)
       state.articles = action.payload
-      console.log(state.articles)
     },
-    offset(state) {
-      state.skipNumber = state.skipNumber + 5
+    getarticlescount(state, action) {
+      state.articlescount = action.payload
+    },
+    offset(state, action) {
+      state.skipNumber = action.payload
     },
     loading(state) {
-      console.log('load')
       state.isLoading = !state.isLoading
+    },
+    getCurrentPage(state, action) {
+      state.currentPage = action.payload
     },
   },
 })
 
-export const { getarticles, offset, loading } = blogSlice.actions
+export const { getarticles, offset, loading, getarticlescount, getCurrentPage } = blogSlice.actions
 
 export default blogSlice.reducer

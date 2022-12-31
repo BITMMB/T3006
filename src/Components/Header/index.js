@@ -1,2 +1,2 @@
-import App from './App'
-export default App
+import Header from './Header'
+export default Header

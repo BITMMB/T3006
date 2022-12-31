@@ -5,13 +5,21 @@ async function getResourse(url) {
   }
   return await res.json()
 }
-// export default getResourse
 
 export class ApiArticles {
-  async getArticleList() {
-    const res = await getResourse('https://api.realworld.io/api/articles?limit=5&offset=0')
-
+  async getArticleList(v) {
+    const res = await getResourse(`https://api.realworld.io/api/articles?limit=5&offset=${v}`)
+    // console.log(res)
     return res
+  }
+  async getCurrentArticle(id) {
+    let element = {}
+    await getResourse('https://api.realworld.io/api/articles?limit=970&offset=0').then((r) => {
+      // console.log(r.articles)
+      element = r.articles.find((item) => item.slug == id.id)
+      // console.log(element)
+    })
+    return element
   }
 }
 
