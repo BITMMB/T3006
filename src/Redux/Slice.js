@@ -10,6 +10,8 @@ const initialState = {
   skipNumber: 0,
   isLoading: false,
   currentPage: '',
+  user: null,
+  isLogin: false,
 }
 
 const blogSlice = createSlice({
@@ -32,9 +34,15 @@ const blogSlice = createSlice({
     getCurrentPage(state, action) {
       state.currentPage = action.payload
     },
+    getUser(state, action) {
+      state.user = action.payload
+    },
+    login(state, action) {
+      state.isLogin = action.payload
+    },
   },
 })
 
-export const { getarticles, offset, loading, getarticlescount, getCurrentPage } = blogSlice.actions
+export const { getarticles, offset, loading, getarticlescount, getCurrentPage, getUser, login } = blogSlice.actions
 
 export default blogSlice.reducer

@@ -1,15 +1,17 @@
 import React from 'react'
-import { Button, Space } from 'antd'
-// import { useDispatch, useSelector } from 'react-redux'
-// import classes from './BtnSignInUp.module.scss'
+import { Link } from 'react-router-dom'
+
+import classes from './BtnSignInUp.module.scss'
 
 function BtnSignInUp() {
   return (
-    <div className={''}>
-      <Space wrap>
-        <Button type="primary">sign in</Button>
-        <Button>sign iup</Button>
-      </Space>
+    <div className={classes.block}>
+      <Link to={'/sign-in'}>
+        <div className={classes.in}>Sign In</div>
+      </Link>
+      <Link to={'/sign-up'}>
+        <div className={classes.up}>Sign Up</div>
+      </Link>
     </div>
   )
 }

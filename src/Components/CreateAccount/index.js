@@ -1,2 +1,2 @@
-import App from './App'
-export default App
+import CreateAccount from './CreateAccount'
+export default CreateAccount
