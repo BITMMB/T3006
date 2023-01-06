@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-// import { useDispatch, useSelector } from 'react-redux'
 import { Authentication } from '../../Api/Api.js'
 import { getUser } from '../../Redux/Slice'
 
@@ -27,13 +26,14 @@ function Profile() {
   })
 
   const onSubmit = (data) => {
+    console.log(data)
     let res = {}
     for (let key in data) {
       if (data[key].length > 0) {
         res[key] = data[key]
       }
     }
-    console.log(res)
+
     apiAuthentication.updateProfile(res).then((e) => {
       console.log(e)
       if (e.errors) {
@@ -116,7 +116,7 @@ function Profile() {
           </div>
           <input
             className={errors?.url ? classes.inputerror : classes.input}
-            {...register('url', {
+            {...register('image', {
               pattern: {
                 value: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/,
                 message: 'error message',

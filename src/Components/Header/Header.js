@@ -16,19 +16,18 @@ function Header() {
 
   useEffect(() => {
     if (token) {
-      // console.log(token)
       dispatch(login(true))
     }
   }, [])
 
   return (
     <div className={classes.header}>
-      <div className={classes.back}>
-        <Link to="/">
-          <span>Realworld Blog</span>
-        </Link>
-      </div>
-      {isLogin ? <UserLoginIcon /> : <BtnSignInUp />}
+      <Link to="/">
+        <div className={classes.back}>
+          <span className={classes.title}>Realworld Blog</span>
+        </div>
+      </Link>
+      <div className={classes.btn}>{isLogin ? <UserLoginIcon /> : <BtnSignInUp />}</div>
     </div>
   )
 }

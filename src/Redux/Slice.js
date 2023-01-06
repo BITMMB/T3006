@@ -1,17 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// import { ApiArticles } from '../Api/Api.js'
-
-// const apiArticles = new ApiArticles()
-
 const initialState = {
   articles: [],
   articlescount: 0,
   skipNumber: 0,
   isLoading: false,
   currentPage: '',
-  user: null,
+  user: {},
   isLogin: false,
+  changedMark: 0,
 }
 
 const blogSlice = createSlice({
@@ -40,9 +37,13 @@ const blogSlice = createSlice({
     login(state, action) {
       state.isLogin = action.payload
     },
+    changedMark(state) {
+      state.changedMark = state.changedMark + 1
+    },
   },
 })
 
-export const { getarticles, offset, loading, getarticlescount, getCurrentPage, getUser, login } = blogSlice.actions
+export const { changedMark, getarticles, offset, loading, getarticlescount, getCurrentPage, getUser, login } =
+  blogSlice.actions
 
 export default blogSlice.reducer

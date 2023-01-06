@@ -2,28 +2,40 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Heart from '../Heart'
-import Text from '../TextBlock'
 import UserIcon from '../UserIcon'
+import Tag from '../Tag'
 
 import classes from './ArticleSmall.module.scss'
 
+function kitcut(text, limit) {
+  text = text.trim()
+  if (text.length <= limit) return text
+  text = text.slice(0, limit)
+  let lastSpace = text.lastIndexOf(' ')
+  if (lastSpace > 0) {
+    text = text.substr(0, lastSpace)
+  }
+  return text + '...'
+}
+
 function ArticleSmall({ el }) {
+  let limit
+  if (el.body.split(' ').length - 1 == 0) {
+    limit = 140
+  } else {
+    limit = 220
+  }
+
   return (
     <div className={classes.article}>
       <div className={classes.title}>
-        <Link to={`/${el.slug}`}>
-          <Text txt={el.title} value={'title'} />
-        </Link>
-        <Heart favoritesCount={el.favoritesCount} />
+        <Link to={`/${el.slug}`}>{kitcut(el.title, 100)}</Link>
+        <Heart element={el} />
       </div>
       <UserIcon el={el} />
-      <div className={classes.tags}>Tag1</div>
-      <div className={classes.text}>
-        <Text txt={el.body} value={'body'} />
-      </div>
+      <Tag el={el} />
+      <div className={classes.text}>{kitcut(el.body, limit)}</div>
     </div>
   )
 }
-
 export default ArticleSmall
-// classes.article

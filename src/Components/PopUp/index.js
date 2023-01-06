@@ -1,2 +1,2 @@
-import App from './App'
-export default App
+import PopUp from './PopUp'
+export default PopUp

@@ -1,20 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-// import Spiner from '../Spiner'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 
 import ArticleSmall from '../ArticleSmall'
-// import { getarticles, offset } from '../../Redux/Slice'
+import LoadingList from '../LoadingList'
+import { getCurrentPage } from '../../Redux/Slice'
 
 import classes from './ArticleList.module.scss'
 
 function ArticleList() {
-  const articles = useSelector((state) => state.blogReducer.articles)
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(getCurrentPage(''))
+  })
+
+  const articles = useSelector((state) => state.blogReducer.articles)
+  const isLoading = useSelector((state) => state.blogReducer.isLoading)
   const element = articles.map((el) => <ArticleSmall el={el} key={uuidv4()} />)
 
-  // console.log(element)
-  return <div className={classes.list}>{element}</div>
+  return isLoading ? <LoadingList /> : <div className={classes.list}> {element}</div>
 }
 
 export default ArticleList

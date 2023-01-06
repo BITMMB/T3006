@@ -14,6 +14,7 @@
 .block {
   grid-column-start: 2;
   grid-row-start: 1;
+  grid-row-end: 3;
   gap: 10px;
   display: flex;
   justify-content: end;

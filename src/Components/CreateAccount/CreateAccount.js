@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-// import { useDispatch, useSelector } from 'react-redux'
 import { Authentication } from '../../Api/Api.js'
 import { getUser } from '../../Redux/Slice'
 
@@ -19,6 +18,7 @@ function CreateAccount() {
   const apiAuthentication = new Authentication()
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors },
     reset,
@@ -45,84 +45,81 @@ function CreateAccount() {
       <div className={classes.block}>
         <div className={classes.title}>Create new account</div>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <input
-            className={errors?.username || errorList?.username ? classes.inputerror : classes.input}
-            {...register('username', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-              minLength: {
-                value: 3,
-                message: 'error message',
-              },
-              maxLength: {
-                value: 20,
-                message: 'error message',
-              },
-            })}
-            placeholder="Username"
-          />
-          <div className={classes.blockerror}>
+          <label>
+            Username
+            <input
+              className={errors?.username || errorList?.username ? classes.inputerror : classes.input}
+              {...register('username', {
+                required: true,
+                minLength: 3,
+                maxLength: 20,
+              })}
+              placeholder="Username"
+            />
             {errorList?.username ? <span className={classes.error}>This login is already taken</span> : null}
             {errors?.username?.type === 'required' && <span className={classes.error}>This field is required</span>}
             {errors?.username?.type === 'minLength' && <span className={classes.error}>Min length is 3</span>}
             {errors?.username?.type === 'maxLength' && <span className={classes.error}>Max length is 20</span>}
-          </div>
-          <input
-            className={errors?.email || errorList?.email ? classes.inputerror : classes.input}
-            {...register('email', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-              pattern: {
-                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: 'error message',
-              },
-            })}
-            placeholder="Email address"
-          />
-          <div className={classes.blockerror}>
+          </label>
+
+          <label>
+            Email address
+            <input
+              className={errors?.email || errorList?.email ? classes.inputerror : classes.input}
+              {...register('email', {
+                required: true,
+                pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              })}
+              placeholder="Email address"
+            />
             {errorList?.email ? <span className={classes.error}>This email is already taken</span> : null}
             {errors?.email?.type === 'required' && <span className={classes.error}>This field is required</span>}
             {errors?.email?.type === 'pattern' && <span className={classes.error}>Email is uncorrect</span>}
-          </div>
-          <input
-            className={errors?.password ? classes.inputerror : classes.input}
-            {...register('password', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-              minLength: {
-                value: 6,
-                message: 'error message',
-              },
-              maxLength: {
-                value: 20,
-                message: 'error message',
-              },
-            })}
-            placeholder="Password"
-          />
-          <div className={classes.blockerror}>
+          </label>
+
+          <label>
+            Password
+            <input
+              className={errors?.password ? classes.inputerror : classes.input}
+              {...register('password', {
+                required: true,
+                minLength: 6,
+                maxLength: 20,
+              })}
+              placeholder="Password"
+            />
             {errors?.password?.type === 'required' && <span className={classes.error}>This field is required</span>}
             {errors?.password?.type === 'minLength' && <span className={classes.error}>Min length is 6</span>}
             {errors?.password?.type === 'maxLength' && <span className={classes.error}>Max length is 20</span>}
-          </div>
-          <input
-            className={errors?.repassword ? classes.inputerror : classes.input}
-            {...register('repassword', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-            })}
-            placeholder="Repeat Password"
-          />
+          </label>
+          <label>
+            Repeat Password
+            <input
+              className={errors?.repassword ? classes.inputerror : classes.input}
+              {...register('repassword', {
+                required: true,
+                validate: (value) => value == watch('password'),
+              })}
+              placeholder="Repeat Password"
+            />
+            <div className={classes.blockerror}>
+              {errors?.repassword?.type === 'required' && <span className={classes.error}>This field is required</span>}
+              {errors?.repassword?.type === 'validate' && <span className={classes.error}>Passwords must match</span>}
+            </div>
+          </label>
+
+          <label className={errors?.checkbox ? classes.agreeerror : classes.agree}>
+            <input
+              type={'checkbox'}
+              className={classes.checkbox}
+              {...register('checkbox', {
+                required: true,
+              })}
+            />
+            I agree to the processing of my personal information
+          </label>
           <div className={classes.blockerror}>
-            {errors?.repassword?.type === 'required' && <span className={classes.error}>This field is required</span>}
+            {errors?.checkbox?.type === 'required' && <span className={classes.error}>This checkbox is required</span>}
           </div>
           <input type="submit" className={classes.submit} />
         </form>

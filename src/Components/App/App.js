@@ -1,79 +1,68 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Pagination } from 'antd'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import 'antd/dist/antd.css'
 
 import { ApiArticles } from '../../Api/Api.js'
 import { getarticles, loading, offset, getarticlescount } from '../../Redux/Slice'
 import ArticleList from '../ArticleList'
 import Header from '../Header'
-// import Spiner from '../Spiner/'
 import Article from '../Article'
 import CreateAccount from '../CreateAccount'
 import SignIn from '../SignIn'
 import Profile from '../Profile'
+import CreateArticle from '../CreateArticle'
 
-// import { ArticleList } from './pages/ArticleList'
-// import { Article } from './pages/Article'
 import classes from './App.module.scss'
 
 function App() {
   const dispatch = useDispatch()
-
-  // const isLoading = useSelector((state) => state.blogReducer.isLoading)
-  const skipNumber = useSelector((state) => state.blogReducer.skipNumber) * 5
-  // const articles = useSelector((state) => state.blogReducer.articles)
-  // const articlescount = useSelector((state) => state.blogReducer.articlescount)
+  const id = useLocation()
+  const skipNumber = useSelector((state) => state.blogReducer.skipNumber)
+  const articlescount = useSelector((state) => state.blogReducer.articlescount)
+  const changedMark = useSelector((state) => state.blogReducer.changedMark)
 
   const apiArticles = new ApiArticles()
 
   function getres(skipNumber) {
-    dispatch(loading())
+    dispatch(loading(true))
     apiArticles.getArticleList(skipNumber).then((a) => {
       dispatch(getarticles(a.articles))
       dispatch(getarticlescount(a.articlesCount))
-      dispatch(loading())
+      dispatch(loading(false))
     })
   }
   useEffect(() => {
-    getres(skipNumber)
-  }, [])
+    getres(skipNumber * 5)
+  }, [changedMark])
 
   return (
     <div className={classes.app}>
       <Header />
-      {/* {isLoading ? <Spiner /> : <ArticleList />}
-      <Article /> */}
-
       <Routes>
         <Route path="/" element={<ArticleList />} />
         <Route path="/:id" element={<Article />} />
         <Route path="/sign-up" element={<CreateAccount />} />
         <Route path="sign-in" element={<SignIn />} />
         <Route path="/profile" element={<Profile />} />
-        {/* <Route path="/" element={<ArticleList />} /> */}
-        {/* <Route path="/" element={<ArticleList />} /> */}
-        {/* <Route path="/" element={<ArticleList />} /> */}
+        <Route path="/new-article" element={<CreateArticle />} />
+        <Route path="/articles/:id/edit" element={<CreateArticle />} />
       </Routes>
-
-      <Pagination
-        defaultCurrent={1}
-        // total={articlescount}
-        total={5000}
-        onChange={(e) => {
-          dispatch(offset(e))
-          getres(e * 5)
-        }}
-      />
+      {id.pathname == '/' ? (
+        <Pagination
+          defaultCurrent={1}
+          current={skipNumber + 1}
+          size={'small'}
+          total={articlescount}
+          onChange={(e) => {
+            dispatch(offset(e - 1))
+            getres((e - 1) * 5)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
-
-// make outlet
-// checkbox create
-// rewrite pass
-// loading on create etd
-// rename button
 
 export default App

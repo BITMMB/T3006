@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
-// import 'antd/dist/antd.css'
 import store from './Redux/index.js'
 import App from './Components/App'
 import './index.scss'

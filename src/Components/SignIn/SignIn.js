@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-// import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-// import { useDispatch, useSelector } from 'react-redux'
 import { Authentication } from '../../Api/Api.js'
 import { getUser, login } from '../../Redux/Slice'
 
@@ -47,39 +45,32 @@ function SignIn() {
       <div className={classes.block}>
         <div className={classes.title}>Sign In</div>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <input
-            className={errors?.email || errorList ? classes.inputerror : classes.input}
-            {...register('email', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-              pattern: {
-                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: 'error message',
-              },
-            })}
-            placeholder="Email address"
-          />
-          <div className={classes.blockerror}>
+          <label>
+            Email address
+            <input
+              className={errors?.email || errorList ? classes.inputerror : classes.input}
+              {...register('email', {
+                required: true,
+                pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              })}
+              placeholder="Email address"
+            />
             {errorList ? <span className={classes.error}>Email or password is invalid</span> : null}
             {errors?.email?.type === 'required' && <span className={classes.error}>This field is required</span>}
             {errors?.email?.type === 'pattern' && <span className={classes.error}>Email is uncorrect</span>}
-          </div>
-          <input
-            className={errors?.password || errorList ? classes.inputerror : classes.input}
-            {...register('password', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-            })}
-            placeholder="Password"
-          />
-          <div className={classes.blockerror}>
+          </label>
+          <label>
+            Password
+            <input
+              className={errors?.password || errorList ? classes.inputerror : classes.input}
+              {...register('password', {
+                required: true,
+              })}
+              placeholder="Password"
+            />
             {errorList ? <span className={classes.error}>Email or password is invalid</span> : null}
             {errors?.password?.type === 'required' && <span className={classes.error}>This field is required</span>}
-          </div>
+          </label>
           <input type="submit" className={classes.submit} />
         </form>
         <span className={classes.have}>

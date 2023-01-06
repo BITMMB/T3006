@@ -5,5 +5,10 @@
 }
 .heart {
   position: relative;
-  top: 1px;
+  top: -1px;
+}
+.likebtn {
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
 }
