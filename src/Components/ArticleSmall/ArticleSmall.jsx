@@ -34,7 +34,7 @@ function ArticleSmall({ el }) {
       </div>
       <UserIcon el={el} />
       <Tag el={el} />
-      <div className={classes.text}>{kitcut(el.body, limit)}</div>
+      <div className={classes.text}>{kitcut(el.description, limit)}</div>
     </div>
   )
 }
