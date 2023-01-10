@@ -21,7 +21,7 @@ function kitcut(text, limit) {
 function ArticleSmall({ el }) {
   let limit
   if (el.body.split(' ').length - 1 == 0) {
-    limit = 140
+    limit = 110
   } else {
     limit = 220
   }
@@ -29,7 +29,7 @@ function ArticleSmall({ el }) {
   return (
     <div className={classes.article}>
       <div className={classes.title}>
-        <Link to={`/${el.slug}`}>{kitcut(el.title, 100)}</Link>
+        <Link to={`/${el.slug}`}>{kitcut(el.title, 50)}</Link>
         <Heart element={el} />
       </div>
       <UserIcon el={el} />

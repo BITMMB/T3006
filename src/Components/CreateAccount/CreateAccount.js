@@ -80,6 +80,7 @@ function CreateAccount() {
           <label>
             Password
             <input
+              type="password"
               className={errors?.password ? classes.inputerror : classes.input}
               {...register('password', {
                 required: true,
@@ -95,6 +96,7 @@ function CreateAccount() {
           <label>
             Repeat Password
             <input
+              type="password"
               className={errors?.repassword ? classes.inputerror : classes.input}
               {...register('repassword', {
                 required: true,

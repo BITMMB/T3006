@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Authentication } from '../../Api/Api.js'
-import { getUser, login } from '../../Redux/Slice'
+import { getUser, login, changedMark } from '../../Redux/Slice'
 
 import classes from './SignIn.module.scss'
 
 function SignIn() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const element = useSelector((state) => state.blogReducer.currentPage)
   const goHome = () => {
-    navigate('/', { replace: true })
+    const page = element.slug ? element.slug : ''
+    navigate(`/${page}`, { replace: true })
   }
   const [errorList, setErrorList] = useState(0)
   const apiAuthentication = new Authentication()
@@ -27,14 +29,13 @@ function SignIn() {
   const onSubmit = (data) => {
     apiAuthentication.loginuser(data.email, data.password).then((e) => {
       if (e.errors) {
-        console.log(e)
         setErrorList(e.errors)
       } else {
-        console.log(e)
+        goHome()
         localStorage.setItem('token', e.user.token)
         dispatch(getUser(e.user))
         dispatch(login(true))
-        goHome()
+        dispatch(changedMark())
       }
     })
     reset()
@@ -62,6 +63,7 @@ function SignIn() {
           <label>
             Password
             <input
+              type="password"
               className={errors?.password || errorList ? classes.inputerror : classes.input}
               {...register('password', {
                 required: true,

@@ -25,8 +25,8 @@ const blogSlice = createSlice({
     offset(state, action) {
       state.skipNumber = action.payload
     },
-    loading(state) {
-      state.isLoading = !state.isLoading
+    loading(state, action) {
+      state.isLoading = action.payload
     },
     getCurrentPage(state, action) {
       state.currentPage = action.payload

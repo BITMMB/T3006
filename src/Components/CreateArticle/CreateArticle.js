@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { ApiArticles } from '../../Api/Api.js'
+import Spiner from '../Spiner'
+import { loading } from '../../Redux/Slice'
 
 import classes from './CreateArticle.module.scss'
 
 function CreateArticle() {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [errorList, setErrorList] = useState(0)
   const apiApiArticles = new ApiArticles()
   const element = useSelector((state) => state.blogReducer.currentPage)
   const { pathname } = useLocation()
+  const isLoading = useSelector((state) => state.blogReducer.isLoading)
 
-  const goHome = () => {
-    navigate('/', { replace: true })
+  const goToArticle = (el) => {
+    navigate(`/${el.article.slug}`, { replace: true })
   }
   const gosign = () => {
     navigate('/sign-in', { replace: true })
@@ -35,6 +39,7 @@ function CreateArticle() {
   })
 
   useEffect(() => {
+    dispatch(loading(false))
     const token = localStorage.getItem('token')
     token ? null : gosign()
   }, [])
@@ -45,14 +50,13 @@ function CreateArticle() {
   })
 
   const onSubmit = (data) => {
+    dispatch(loading(true))
     if (pathname == '/new-article') {
       apiApiArticles.createArgticle(data).then((e) => {
         if (e.errors) {
-          console.log(e)
           setErrorList(e.errors)
         } else {
-          console.log(e)
-          goHome()
+          goToArticle(e)
         }
       })
     } else {
@@ -60,11 +64,9 @@ function CreateArticle() {
         .updateArgticle(data, element.slug)
         .then((e) => {
           if (e.errors) {
-            console.log(e)
             setErrorList(e.errors)
           } else {
-            console.log(e)
-            goHome()
+            goToArticle(e)
           }
         })
         .catch((e) => {
@@ -74,7 +76,9 @@ function CreateArticle() {
     reset()
   }
 
-  return (
+  return isLoading ? (
+    <Spiner />
+  ) : (
     <div className={classes.block}>
       <div className={classes.title}>{pathname == '/new-article' ? 'Create new article' : 'Edit article'}</div>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>

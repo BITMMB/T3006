@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Authentication } from '../../Api/Api.js'
-import { getUser, login } from '../../Redux/Slice'
+import { getUser, login, changedMark } from '../../Redux/Slice'
 
 import classes from './UserLoginIcon.module.scss'
 import face from './face.png'
@@ -29,7 +29,7 @@ function UserLoginIcon() {
         <div className={classes.userblock}>
           <div className={classes.user}>{user ? user.username : 'User'}</div>
           <div className={classes.face}>
-            {user ? (
+            {user.image ? (
               <img className={classes.faceimg} src={user.image} alt="user photo" />
             ) : (
               <img className={classes.faceimg} src={face} alt="user photo" />
@@ -42,6 +42,7 @@ function UserLoginIcon() {
           className={classes.in}
           onClick={() => {
             dispatch(login(false))
+            dispatch(changedMark())
             localStorage.clear()
           }}
         >

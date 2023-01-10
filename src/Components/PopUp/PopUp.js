@@ -1,8 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { ApiArticles } from '../../Api/Api.js'
+import { changedMark } from '../../Redux/Slice'
 
 import classes from './PopUp.module.scss'
 import pic from './Frame.png'
@@ -11,7 +12,7 @@ function PopUp({ popActive, setPopActive }) {
   const navigate = useNavigate()
 
   const apiArticles = new ApiArticles()
-
+  const dispatch = useDispatch()
   const element = useSelector((state) => state.blogReducer.currentPage)
 
   const goHome = () => {
@@ -49,9 +50,9 @@ function PopUp({ popActive, setPopActive }) {
             onClick={() => {
               apiArticles
                 .deleteArgticle(element.slug)
-                .then((e) => {
-                  console.log(e)
+                .then(() => {
                   goHome()
+                  dispatch(changedMark())
                 })
                 .catch((e) => {
                   console.log(e)

@@ -17,6 +17,7 @@ function BtnEditArt({ elem }) {
       >
         <span>Delite</span>
       </button>
+
       <PopUp popActive={popActive} setPopActive={setPopActive} />
       <Link to={`/articles/${elem.slug}/edit`}>
         <button className={classes.edit}>

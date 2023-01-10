@@ -24,6 +24,7 @@ function Article() {
       .catch((e) => {
         console.log(e)
       })
+    dispatch(loading(false))
   }, [])
 
   return element ? <LoadingArticle element={element} /> : <Spiner />

@@ -18,8 +18,10 @@
   gap: 10px;
   display: flex;
   justify-content: end;
+  min-width: 200px;
 }
 .faceimg {
   width: 46px;
   height: 46px;
+  border-radius: 50%;
 }

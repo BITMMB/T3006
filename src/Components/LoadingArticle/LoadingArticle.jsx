@@ -24,12 +24,12 @@ function LoadingArticle({ element }) {
   let limitTitle
   let limitBody
   if (element.title.split(' ').length - 1 == 0) {
-    limitTitle = 140
+    limitTitle = 50
   } else {
     limitTitle = 250
   }
   if (element.body.split(' ').length - 1 == 0) {
-    limitBody = 140
+    limitBody = 100
   } else {
     limitBody = 250000
   }
@@ -40,14 +40,14 @@ function LoadingArticle({ element }) {
     <section className={classes.list}>
       <div className={classes.header}>
         <div className={classes.title}>
-          {kitcut(element.title, limitTitle)}
+          <span>{kitcut(element.title, limitTitle)}</span>
           <Heart element={element} />
         </div>
         <UserIcon el={element} />
       </div>
       <Tag el={element} />
       <div className={classes.discriptionblock}>
-        <span className={classes.disc}>{element.description}</span>
+        <span className={classes.disc}>{kitcut(element.description, limitTitle)}</span>
         {isLogin && element.author.username == user.username ? <BtnEditArt elem={element} /> : null}
       </div>
       <div>

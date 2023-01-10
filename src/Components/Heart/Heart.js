@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-// import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 import { ApiArticles } from '../../Api/Api.js'
 import { changedMark } from '../../Redux/Slice'
@@ -12,9 +12,10 @@ import heartRed from './heart_red.png'
 function Heart({ element }) {
   const apiArticles = new ApiArticles()
   const dispatch = useDispatch()
-
+  const id = useLocation()
   let [isFavorite, setIsFavorite] = useState(element.favorited)
   let [count, setCount] = useState(element.favoritesCount)
+  const isLogin = useSelector((state) => state.blogReducer.isLogin)
 
   const mark = () => {
     let type = isFavorite ? 'DELETE' : 'POST'
@@ -23,9 +24,10 @@ function Heart({ element }) {
     setCount(newCount)
     apiArticles
       .markAsFavoriteArgticle(element.slug, type)
-      .then((e) => {
-        dispatch(changedMark())
-        console.log(e)
+      .then(() => {
+        if (id.pathname != '/') {
+          dispatch(changedMark())
+        }
       })
       .catch((e) => {
         console.log(e)
@@ -35,9 +37,11 @@ function Heart({ element }) {
   return (
     <div className={classes.block}>
       <button
-        className={classes.likebtn}
+        className={isLogin ? `${classes.likebtn} ${classes.pointer}` : classes.likebtn}
         onClick={() => {
-          mark()
+          if (isLogin) {
+            mark()
+          }
         }}
       >
         {isFavorite ? (

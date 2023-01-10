@@ -1,20 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Authentication } from '../../Api/Api.js'
-import { getUser } from '../../Redux/Slice'
+import { getUser, login } from '../../Redux/Slice'
 
 import classes from './Profile.module.scss'
 
 function Profile() {
+  const isLogin = useSelector((state) => state.blogReducer.isLogin)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [errorList, setErrorList] = useState(0)
-  const goHome = () => {
-    navigate('/', { replace: true })
+  const gosign = () => {
+    navigate('/sign-in', { replace: true })
   }
+
+  useEffect(() => {
+    if (!isLogin) {
+      gosign()
+    }
+  })
+
   const apiAuthentication = new Authentication()
   const {
     register,
@@ -26,7 +34,6 @@ function Profile() {
   })
 
   const onSubmit = (data) => {
-    console.log(data)
     let res = {}
     for (let key in data) {
       if (data[key].length > 0) {
@@ -35,14 +42,12 @@ function Profile() {
     }
 
     apiAuthentication.updateProfile(res).then((e) => {
-      console.log(e)
       if (e.errors) {
-        console.log(e)
         setErrorList(e.errors)
       } else {
-        console.log(e)
         dispatch(getUser(''))
-        goHome()
+        dispatch(login(false))
+        gosign()
       }
     })
     reset()
@@ -55,19 +60,9 @@ function Profile() {
           <input
             className={errors?.username || errorList?.username ? classes.inputerror : classes.input}
             {...register('username', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-
-              minLength: {
-                value: 3,
-                message: 'error message',
-              },
-              maxLength: {
-                value: 20,
-                message: 'error message',
-              },
+              required: true,
+              minLength: 3,
+              maxLength: 20,
             })}
             placeholder="Username"
           />
@@ -80,14 +75,8 @@ function Profile() {
           <input
             className={errors?.email || errorList?.email ? classes.inputerror : classes.input}
             {...register('email', {
-              required: {
-                value: true,
-                message: 'string',
-              },
-              pattern: {
-                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: 'error message',
-              },
+              required: true,
+              pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
             })}
             placeholder="Email address"
           />
@@ -99,14 +88,8 @@ function Profile() {
           <input
             className={errors?.password ? classes.inputerror : classes.input}
             {...register('password', {
-              minLength: {
-                value: 6,
-                message: 'error message',
-              },
-              maxLength: {
-                value: 20,
-                message: 'error message',
-              },
+              minLength: 6,
+              maxLength: 20,
             })}
             placeholder="New password"
           />
@@ -117,10 +100,7 @@ function Profile() {
           <input
             className={errors?.url ? classes.inputerror : classes.input}
             {...register('image', {
-              pattern: {
-                value: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/,
-                message: 'error message',
-              },
+              pattern: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/,
             })}
             placeholder="Avatar image (url)"
           />

@@ -13,10 +13,10 @@ function UserIcon({ el }) {
         <span className={classes.date}>{date}</span>
       </div>
       <div className={classes.face}>
-        {el ? (
-          <img className={classes.faceimg} src={el.author.image} alt="like" />
+        {el.author.image ? (
+          <img className={classes.faceimg} src={el.author.image} alt="face img" />
         ) : (
-          <img className={classes.faceimg} src={face} alt="like" />
+          <img className={classes.faceimg} src={face} alt="face img" />
         )}
       </div>
     </div>

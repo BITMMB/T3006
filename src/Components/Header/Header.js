@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import BtnSignInUp from '../BtnSignInUp'
 import UserLoginIcon from '../UserLoginIcon'
-import { login } from '../../Redux/Slice'
+import { changedMark, login } from '../../Redux/Slice'
 
 import classes from './Header.module.scss'
 
@@ -23,9 +23,14 @@ function Header() {
   return (
     <div className={classes.header}>
       <Link to="/">
-        <div className={classes.back}>
+        <button
+          className={classes.back}
+          onClick={() => {
+            dispatch(changedMark())
+          }}
+        >
           <span className={classes.title}>Realworld Blog</span>
-        </div>
+        </button>
       </Link>
       <div className={classes.btn}>{isLogin ? <UserLoginIcon /> : <BtnSignInUp />}</div>
     </div>
