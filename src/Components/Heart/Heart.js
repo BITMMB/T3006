@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 
 import { ApiArticles } from '../../Api/Api.js'
-import { changedMark } from '../../Redux/Slice'
+import { changedMark } from '../../Redux/apiSlicer'
 
 import classes from './Heart.module.scss'
 import heart from './heart1.png'
@@ -15,7 +15,7 @@ function Heart({ element }) {
   const id = useLocation()
   let [isFavorite, setIsFavorite] = useState(element.favorited)
   let [count, setCount] = useState(element.favoritesCount)
-  const isLogin = useSelector((state) => state.blogReducer.isLogin)
+  const isLogin = useSelector((state) => state.userSlicer.isLogin)
 
   const mark = () => {
     let type = isFavorite ? 'DELETE' : 'POST'

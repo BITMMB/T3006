@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
-// import { format } from 'date-fns'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Authentication } from '../../Api/Api.js'
-import { getUser, login, changedMark } from '../../Redux/Slice'
+import { changedMark } from '../../Redux/apiSlicer'
+import { getUser, login } from '../../Redux/userSlicer'
 
 import classes from './UserLoginIcon.module.scss'
 import face from './face.png'
 
 function UserLoginIcon() {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.blogReducer.user)
+  const user = useSelector((state) => state.userSlicer.user)
 
   const apiAuthentication = new Authentication()
   useEffect(() => {
@@ -19,6 +19,12 @@ function UserLoginIcon() {
       dispatch(getUser(e.user))
     })
   }, [])
+
+  function signOut() {
+    dispatch(login(false))
+    dispatch(changedMark())
+    localStorage.clear()
+  }
 
   return (
     <div className={classes.block}>
@@ -41,9 +47,7 @@ function UserLoginIcon() {
         <button
           className={classes.in}
           onClick={() => {
-            dispatch(login(false))
-            dispatch(changedMark())
-            localStorage.clear()
+            signOut()
           }}
         >
           <div>Sign Out</div>

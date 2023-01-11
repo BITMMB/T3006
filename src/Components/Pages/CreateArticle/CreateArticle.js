@@ -3,9 +3,9 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { ApiArticles } from '../../Api/Api.js'
+import { ApiArticles } from '../../../Api/Api.js'
 import Spiner from '../Spiner'
-import { loading } from '../../Redux/Slice'
+import { loading } from '../../../Redux/apiSlicer'
 
 import classes from './CreateArticle.module.scss'
 
@@ -14,15 +14,16 @@ function CreateArticle() {
   const navigate = useNavigate()
   const [errorList, setErrorList] = useState(0)
   const apiApiArticles = new ApiArticles()
-  const element = useSelector((state) => state.blogReducer.currentPage)
+  const element = useSelector((state) => state.apiSlicer.currentPage)
+  const user = useSelector((state) => state.userSlicer.user)
   const { pathname } = useLocation()
-  const isLoading = useSelector((state) => state.blogReducer.isLoading)
+  const isLoading = useSelector((state) => state.apiSlicer.isLoading)
 
   const goToArticle = (el) => {
     navigate(`/${el.article.slug}`, { replace: true })
   }
   const gosign = () => {
-    navigate('/sign-in', { replace: true })
+    navigate('/', { replace: true })
   }
 
   const {
@@ -41,7 +42,14 @@ function CreateArticle() {
   useEffect(() => {
     dispatch(loading(false))
     const token = localStorage.getItem('token')
-    token ? null : gosign()
+    // console.log(user.username)
+    // console.log(element.author?.username)
+    // console.log(user.username == element.author.username)
+
+    // token ? null : gosign()
+    if (!token || !user.username || !element.author.username || !user.username === element.author.username) {
+      gosign()
+    }
   }, [])
 
   const { fields, append, remove } = useFieldArray({

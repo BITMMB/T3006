@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import bReducer from './Slice'
+import aSlicer from './apiSlicer.js'
+import uSlicer from './userSlicer.js'
 
 export default configureStore({
   reducer: {
-    blogReducer: bReducer,
+    apiSlicer: aSlicer,
+    userSlicer: uSlicer,
   },
 })

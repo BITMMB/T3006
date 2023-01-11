@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Authentication } from '../../Api/Api.js'
-import { getUser, login } from '../../Redux/Slice'
+import { Authentication } from '../../../Api/Api.js'
+import { getUser, login } from '../../../Redux/userSlicer'
 
 import classes from './Profile.module.scss'
 
 function Profile() {
-  const isLogin = useSelector((state) => state.blogReducer.isLogin)
+  const isLogin = useSelector((state) => state.userSlicer.isLogin)
+  const user = useSelector((state) => state.userSlicer.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [errorList, setErrorList] = useState(0)
@@ -64,7 +65,7 @@ function Profile() {
               minLength: 3,
               maxLength: 20,
             })}
-            placeholder="Username"
+            defaultValue={user.username}
           />
           <div className={classes.blockerror}>
             {errorList?.username ? <span className={classes.error}>This login is already taken</span> : null}
@@ -78,7 +79,7 @@ function Profile() {
               required: true,
               pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
             })}
-            placeholder="Email address"
+            defaultValue={user.email}
           />
           <div className={classes.blockerror}>
             {errorList?.email ? <span className={classes.error}>This email is already taken</span> : null}
@@ -102,7 +103,8 @@ function Profile() {
             {...register('image', {
               pattern: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/,
             })}
-            placeholder="Avatar image (url)"
+            placeholder={user.image ? null : 'Avatar image (url)'}
+            defaultValue={user.image ? user.image : null}
           />
           <div className={classes.blockerror}>
             {errors?.url?.type === 'pattern' && <span className={classes.error}>Paste validate url</span>}

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { ApiArticles } from '../../Api/Api.js'
-import { changedMark } from '../../Redux/Slice'
+import { changedMark } from '../../Redux/apiSlicer'
 
 import classes from './PopUp.module.scss'
 import pic from './Frame.png'
@@ -13,10 +13,22 @@ function PopUp({ popActive, setPopActive }) {
 
   const apiArticles = new ApiArticles()
   const dispatch = useDispatch()
-  const element = useSelector((state) => state.blogReducer.currentPage)
+  const element = useSelector((state) => state.apiSlicer.currentPage)
 
   const goHome = () => {
     navigate('/', { replace: true })
+  }
+
+  function delArc() {
+    apiArticles
+      .deleteArgticle(element.slug)
+      .then(() => {
+        goHome()
+        dispatch(changedMark())
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   return (
@@ -48,15 +60,7 @@ function PopUp({ popActive, setPopActive }) {
           <button
             className={classes.yes}
             onClick={() => {
-              apiArticles
-                .deleteArgticle(element.slug)
-                .then(() => {
-                  goHome()
-                  dispatch(changedMark())
-                })
-                .catch((e) => {
-                  console.log(e)
-                })
+              delArc()
             }}
           >
             Yes

@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import BtnSignInUp from '../BtnSignInUp'
-import UserLoginIcon from '../UserLoginIcon'
-import { changedMark, login } from '../../Redux/Slice'
+import BtnSignInUp from '../../BtnSignInUp'
+import UserLoginIcon from '../../UserLoginIcon'
+import { changedMark } from '../../../Redux/apiSlicer'
+import { login } from '../../../Redux/userSlicer'
 
 import classes from './Header.module.scss'
 
@@ -12,7 +13,7 @@ function Header() {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
 
-  const isLogin = useSelector((state) => state.blogReducer.isLogin)
+  const isLogin = useSelector((state) => state.userSlicer.isLogin)
 
   useEffect(() => {
     if (token) {

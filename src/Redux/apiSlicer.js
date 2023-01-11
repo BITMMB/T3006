@@ -6,12 +6,10 @@ const initialState = {
   skipNumber: 0,
   isLoading: false,
   currentPage: '',
-  user: {},
-  isLogin: false,
   changedMark: 0,
 }
 
-const blogSlice = createSlice({
+const apiSlicer = createSlice({
   name: 'blog',
   initialState,
 
@@ -31,19 +29,13 @@ const blogSlice = createSlice({
     getCurrentPage(state, action) {
       state.currentPage = action.payload
     },
-    getUser(state, action) {
-      state.user = action.payload
-    },
-    login(state, action) {
-      state.isLogin = action.payload
-    },
+
     changedMark(state) {
       state.changedMark = state.changedMark + 1
     },
   },
 })
 
-export const { changedMark, getarticles, offset, loading, getarticlescount, getCurrentPage, getUser, login } =
-  blogSlice.actions
+export const { changedMark, getarticles, offset, loading, getarticlescount, getCurrentPage } = apiSlicer.actions
 
-export default blogSlice.reducer
+export default apiSlicer.reducer

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Heart from '../Heart'
-import UserIcon from '../UserIcon'
-import Tag from '../Tag'
+import Heart from '../../Heart'
+import UserIcon from '../../UserIcon'
+import Tag from '../../Tag'
 
 import classes from './ArticleSmall.module.scss'
 

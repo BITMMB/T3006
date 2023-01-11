@@ -34,8 +34,8 @@ function LoadingArticle({ element }) {
     limitBody = 250000
   }
 
-  const user = useSelector((state) => state.blogReducer.user)
-  const isLogin = useSelector((state) => state.blogReducer.isLogin)
+  const user = useSelector((state) => state.userSlicer.user)
+  const isLogin = useSelector((state) => state.userSlicer.isLogin)
   return (
     <section className={classes.list}>
       <div className={classes.header}>

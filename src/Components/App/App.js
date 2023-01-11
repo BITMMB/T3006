@@ -5,23 +5,23 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import 'antd/dist/antd.css'
 
 import { ApiArticles } from '../../Api/Api.js'
-import { getarticles, loading, offset, getarticlescount } from '../../Redux/Slice'
+import { getarticles, loading, offset, getarticlescount } from '../../Redux/apiSlicer'
 import ArticleList from '../ArticleList'
-import Header from '../Header'
-import Article from '../Article'
-import CreateAccount from '../CreateAccount'
-import SignIn from '../SignIn'
-import Profile from '../Profile'
-import CreateArticle from '../CreateArticle'
+import Header from '../Pages/Header'
+import Article from '../Pages/Article'
+import CreateAccount from '../Pages/CreateAccount'
+import SignIn from '../Pages/SignIn'
+import Profile from '../Pages/Profile'
+import CreateArticle from '../Pages/CreateArticle'
 
 import classes from './App.module.scss'
 
 function App() {
   const dispatch = useDispatch()
   const id = useLocation()
-  const skipNumber = useSelector((state) => state.blogReducer.skipNumber)
-  const articlescount = useSelector((state) => state.blogReducer.articlescount)
-  const changedMark = useSelector((state) => state.blogReducer.changedMark)
+  const skipNumber = useSelector((state) => state.apiSlicer.skipNumber)
+  const articlescount = useSelector((state) => state.apiSlicer.articlescount)
+  const changedMark = useSelector((state) => state.apiSlicer.changedMark)
 
   const apiArticles = new ApiArticles()
 
@@ -36,6 +36,11 @@ function App() {
   useEffect(() => {
     getres(skipNumber * 5)
   }, [changedMark])
+
+  function pagiChange(e) {
+    dispatch(offset(e - 1))
+    getres((e - 1) * 5)
+  }
 
   return (
     <div className={classes.app}>
@@ -56,8 +61,7 @@ function App() {
           size={'small'}
           total={articlescount}
           onChange={(e) => {
-            dispatch(offset(e - 1))
-            getres((e - 1) * 5)
+            pagiChange(e)
           }}
         />
       ) : null}

@@ -2,16 +2,16 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { ApiArticles } from '../../Api/Api.js'
-import { loading, getCurrentPage } from '../../Redux/Slice'
-import LoadingArticle from '../LoadingArticle'
+import { ApiArticles } from '../../../Api/Api.js'
+import { loading, getCurrentPage } from '../../../Redux/apiSlicer'
+import LoadingArticle from '../../LoadingArticle'
 import Spiner from '../Spiner'
 
 function Article() {
   const dispatch = useDispatch()
   const apiArticles = new ApiArticles()
   const id = useParams()
-  let element = useSelector((state) => state.blogReducer.currentPage)
+  let element = useSelector((state) => state.apiSlicer.currentPage)
 
   useEffect(() => {
     dispatch(loading(true))

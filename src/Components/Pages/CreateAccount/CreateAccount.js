@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-import { Authentication } from '../../Api/Api.js'
-import { getUser } from '../../Redux/Slice'
+import { Authentication } from '../../../Api/Api.js'
+import { getUser } from '../../../Redux/userSlicer'
 
 import classes from './CreateAccount.module.scss'
 

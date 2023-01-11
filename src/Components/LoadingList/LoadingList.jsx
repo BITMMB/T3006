@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Spiner from '../Spiner'
+import Spiner from '../Pages/Spiner'
 
 import classes from './LoadingList.module.scss'
 

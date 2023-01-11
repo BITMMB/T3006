@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Authentication } from '../../Api/Api.js'
-import { getUser, login, changedMark } from '../../Redux/Slice'
+import { Authentication } from '../../../Api/Api.js'
+import { getUser, login } from '../../../Redux/userSlicer'
+import { changedMark } from '../../../Redux/apiSlicer'
 
 import classes from './SignIn.module.scss'
 
 function SignIn() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const element = useSelector((state) => state.blogReducer.currentPage)
+  const element = useSelector((state) => state.apiSlicer.currentPage)
+  const isLogin = useSelector((state) => state.userSlicer.isLogin)
   const goHome = () => {
     const page = element.slug ? element.slug : ''
     navigate(`/${page}`, { replace: true })
@@ -26,6 +28,13 @@ function SignIn() {
   } = useForm({
     mode: 'onBlur',
   })
+
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/', { replace: true })
+    }
+  })
+
   const onSubmit = (data) => {
     apiAuthentication.loginuser(data.email, data.password).then((e) => {
       if (e.errors) {
